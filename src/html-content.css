@@ -1,0 +1,69 @@
+.html-content img {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+  margin: 1rem auto !important;
+  border-radius: 0.5rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  background: #fff;
+}
+/* Most aggressive fix for numbered lists */
+.html-content ol, .html-content ol li, .html-content ol > li {
+  list-style-type: decimal !important;
+  list-style: decimal !important;
+  display: list-item !important;
+  counter-reset: item;
+}
+.html-content ol > li {
+  counter-increment: item;
+  position: relative;
+}
+/* Force numbered lists to always show for CKEditor HTML */
+.html-content ol, .html-content ol li {
+  list-style-type: decimal !important;
+  list-style: decimal !important;
+  display: list-item !important;
+}
+/* Uniform, consistent list and rich text styling for backend HTML */
+
+/* Force bullets and numbers to show for all lists inside html-content */
+.html-content ul,
+.html-content ul ul,
+.html-content ul ul ul,
+.html-content ol,
+.html-content ol ol,
+.html-content ol ol ol {
+  list-style-type: initial !important;
+  list-style: initial !important;
+  display: block !important;
+  margin-left: 2rem !important;
+  margin-bottom: 1.25rem !important;
+  padding-left: 1.5rem !important;
+}
+.html-content ul {
+  list-style-type: disc !important;
+}
+.html-content ol {
+  list-style-type: decimal !important;
+}
+.html-content li {
+  margin-bottom: 0.75rem !important;
+  font-size: 1rem !important;
+  line-height: 1.6 !important;
+  display: list-item !important;
+}
+.html-content p {
+  margin-bottom: 1rem !important;
+  font-size: 1rem !important;
+  line-height: 1.7 !important;
+}
+.html-content h1,
+.html-content h2,
+.html-content h3,
+.html-content h4,
+.html-content h5,
+.html-content h6 {
+  margin-top: 1.5rem !important;
+  margin-bottom: 1rem !important;
+  font-weight: bold !important;
+}
