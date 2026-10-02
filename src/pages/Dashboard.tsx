@@ -205,33 +205,10 @@ const Dashboard = () => {
                     <CardTitle className="group-hover:text-indigo-300 transition-colors text-lg font-bold mb-2">
                       {course.fullname || 'Untitled Course'}
                     </CardTitle>
-                    <CardDescription className="flex items-center gap-4 text-xs mb-2 text-white/80">
-                      {course.instructor && (
-                        <span className="flex items-center gap-1">
-                          <GraduationCap className="h-3 w-3" />
-                          {course.instructor}
-                        </span>
-                      )}
-                      {course.duration && (
-                        <span className="flex items-center gap-1">
-                          <Clock className="h-3 w-3" />
-                          {course.duration}
-                        </span>
-                      )}
-                    </CardDescription>
                     <div className="text-sm mb-4 line-clamp-3 bg-transparent">
                       <HtmlContent className="text-foreground" html={course.summary || 'No summary available.'} />
                     </div>
                   </div>
-                  {course.progress !== undefined && (
-                    <div className="space-y-2">
-                      <div className="flex justify-between text-sm text-white/80">
-                        <span>Progress</span>
-                        <span className="font-medium">{course.progress}%</span>
-                      </div>
-                      <Progress value={course.progress} className="h-2 bg-white/30" />
-                    </div>
-                  )}
                 </div>
               </Card>
             ))}

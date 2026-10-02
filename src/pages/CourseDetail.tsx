@@ -4,7 +4,7 @@ import ScormPlayer from '@/components/ScormPlayer';
 // (useState is already imported at the top)
 
 function SimpleAccordion({ items, titleKey = 'title', contentKey = 'description', extraFields = [] }) {
-  const [openIndex, setOpenIndex] = useState(null);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
   if (!items || items.length === 0) return null;
   return (
     <div>
@@ -81,6 +81,7 @@ const AttachmentItem = ({ att }: { att: any }) => {
         <a
           href={att.file}
           target="_blank"
+          rel="noopener noreferrer"
           className="text-blue-600 underline"
         >
           Download File
@@ -91,6 +92,7 @@ const AttachmentItem = ({ att }: { att: any }) => {
         <a
           href={att.url}
           target="_blank"
+          rel="noopener noreferrer"
           className="text-blue-600 underline"
         >
           Open Link
@@ -104,51 +106,11 @@ const AttachmentItem = ({ att }: { att: any }) => {
   );
 };
 
-// Render lessons if present
-const renderLessons = (course: any) => {
-  if (!course?.lessons || course.lessons.length === 0) return null;
-  return (
-    <div className="mt-8">
-      <h2 className="text-2xl font-bold mb-4">Lessons</h2>
-      <div className="space-y-6">
-        {course.lessons.map((lesson: any) => (
-          <div key={lesson.id} className="border rounded-lg p-4 bg-muted/30">
-            <p className="font-semibold text-lg mb-2">{lesson.title}</p>
-            {lesson.content && (
-              <HtmlContent className="text-muted-foreground" html={lesson.content} />
-            )}
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-
 /* -------------------------------------------------- */
 /*                   MAIN PAGE                        */
 /* -------------------------------------------------- */
 
 const CourseDetail = () => {
-  // Render lessons if present
-  const renderLessons = (course: any) => {
-    if (!course?.lessons || course.lessons.length === 0) return null;
-    return (
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-4">Lessons</h2>
-        <div className="space-y-6">
-          {course.lessons.map((lesson: any) => (
-            <div key={lesson.id} className="border rounded-lg p-4 bg-muted/30">
-              <p className="font-semibold text-lg mb-2">{lesson.title}</p>
-              {lesson.content && (
-                <HtmlContent className="text-muted-foreground" html={lesson.content} />
-              )}
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
   const { courseId } = useParams<{ courseId: string }>();
   const navigate = useNavigate();
 
@@ -263,30 +225,11 @@ const CourseDetail = () => {
                 <CardTitle className="text-3xl mb-2 text-foreground font-bold">
                   {course.fullname || 'Untitled Course'}
                 </CardTitle>
-                <CardDescription className="flex items-center gap-4 text-sm mt-2 text-white/80">
-                  {course.instructor && (
-                    <span className="flex items-center gap-1">
-                      <GraduationCap className="h-4 w-4" />
-                      {course.instructor}
-                    </span>
-                  )}
-                  {course.duration && (
-                    <span className="flex items-center gap-1">
-                      <Clock className="h-4 w-4" />
-                      {course.duration}
-                    </span>
-                  )}
-                </CardDescription>
-                {course.description && (
-                  <HtmlContent className="mt-4 text-white/90" html={course.description} />
-                )}
                 {course.summary && (
                   <div className="relative mt-4">
                     <HtmlContent className="text-foreground bg-transparent" html={course.summary} />
-                    {/* Optional: Add a subtle overlay for text readability if images are present */}
                   </div>
                 )}
-                {renderLessons(course)}
               </div>
             </div>
           </Card>

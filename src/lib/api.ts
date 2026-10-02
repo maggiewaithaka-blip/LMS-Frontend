@@ -21,17 +21,22 @@ export interface Attachment {
   file: string | null;
   url: string | null;
   text: string | null;
-  created_at: string;
+  // Not returned by the current backend serializer; optional to match reality.
+  created_at?: string;
 }
 
+// Matches the backend CourseSerializer (id, shortname, fullname, summary, visible,
+// start_date, end_date, category, thumbnail). The UI reads fullname/summary/thumbnail.
 export interface Course {
   id: number;
-  title: string;
-  description: string;
-  thumbnail?: string;
-  instructor?: string;
-  duration?: string;
-  progress?: number;
+  shortname: string;
+  fullname: string;
+  summary: string;
+  thumbnail?: string | null;
+  visible?: boolean;
+  start_date?: string | null;
+  end_date?: string | null;
+  category?: number | null;
 }
 
 export interface ScormPackage {
@@ -137,7 +142,12 @@ class ApiService {
           if (response.ok) return response.json();
         }
 
+        // Refresh failed or the retry still failed: the session is dead. Clear tokens and
+        // send the user to login instead of leaving them on a broken, half-loaded page.
         this.clearTokens();
+        if (typeof window !== 'undefined' && window.location.pathname !== '/login') {
+          window.location.assign('/login');
+        }
         throw new Error('Session expired or authentication failed.');
       }
 
@@ -153,7 +163,9 @@ class ApiService {
   }
 
   public async login(credentials: LoginCredentials): Promise<AuthResponse> {
-    const response = await this.request<AuthResponse>('/api/token/', {
+    // /api/auth/login/ returns access + refresh AND the user object (unlike /api/token/,
+    // which returns only the tokens).
+    const response = await this.request<AuthResponse>('/api/auth/login/', {
       method: 'POST',
       body: JSON.stringify(credentials),
     });
